@@ -40,11 +40,18 @@ const routes = [
         name: 'NotFound',
         component: () => import('../views/NotFound.vue'),
     },
-]
+];
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 });
+
+router.beforeEach((to, from) => {
+    console.log('to: ', to);
+    console.log('from: ', from);
+
+    return true;
+  })
 
 export default router;
