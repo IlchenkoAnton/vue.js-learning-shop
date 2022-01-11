@@ -1,15 +1,25 @@
-﻿const authorization = {
+﻿import { User } from '../../core';
+
+const authorization = {
     namespaced: true,
     state: {
-        login: true,
+        user: User,
     },
-    mutations: {},
-    getters: {
-        loginValue(state) {
-            return state.login;
+    mutations: {
+        setUser(state, user) {
+            state.user = user;
         }
     },
-    actions: {},
+    actions: {
+        login({ commit }) {
+            commit('setUser', null);
+        }
+    },
+    getters: {
+        user(state) {
+            return state.user;
+        }
+    },
 };
 
 export default authorization;

@@ -1,6 +1,6 @@
 ﻿<template>
     <h1>Login</h1>
-    <h2>{{ loginValue }}</h2>
+    <h2>{{ user + '' }}</h2>
 </template>
 
 <script>
@@ -10,7 +10,7 @@
         name: 'Login',
         computed: {
             ...mapGetters('authorization', [
-                'loginValue'
+                'user'
             ])
         },
     }
