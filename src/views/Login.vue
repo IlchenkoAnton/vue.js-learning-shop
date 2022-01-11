@@ -1,5 +1,5 @@
 ﻿<template>
-    <h1>Login</h1>
+    <h1 class="display-1">Login</h1>
     <h2>{{ user + '' }}</h2>
 </template>
 
