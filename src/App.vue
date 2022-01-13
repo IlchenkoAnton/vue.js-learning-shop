@@ -12,11 +12,11 @@
                         <router-view></router-view>
                     </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col">
                         Подвал
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
