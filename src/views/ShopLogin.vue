@@ -26,7 +26,18 @@
                         {{ errorMessage }}
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Войти</button>
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    :disabled="!login || !password">
+                        <template v-if="isLoading">
+                            <span class="spinner-border spinner-border-sm"></span>
+                            Загрузка...
+                        </template>
+                        <template v-else>
+                            Войти
+                        </template>
+                </button>
             </fieldset>
         </form>
     </div>
@@ -57,6 +68,7 @@
                 login: '',
                 password: '',
                 errorMessage: '',
+                isLoading: false,
             };
         },
         computed: {
@@ -66,11 +78,19 @@
         },
         methods: {
             onSubmit() {
+                if (!this.login || !this.password) {
+                    return;
+                }
+
+                this.isLoading = true;
                 this.$_login(this.login, this.password)
                     .then((response) => {
                         if (response) {
-                            // redirect
+                            this.$router.push('/products');
                         }
+                    })
+                    .finally(() => {
+                        this.isLoading = false;
                     });
             },
             async $_login(login, password) {
@@ -82,6 +102,7 @@
                         response.data.token,
                     );
 
+                    // TODO Еще в store добавить!!!!
                     LocalStorageUtils.setUser(user);
 
                     return response;
