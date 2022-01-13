@@ -5,8 +5,10 @@ import store from './store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import initAxios from './config/axios.config';
+import mockInterceptors from './config/axios.mock';
 
 initAxios();
+mockInterceptors();
 
 createApp(App)
     .use(store)

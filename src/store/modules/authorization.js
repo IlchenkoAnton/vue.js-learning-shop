@@ -1,4 +1,4 @@
-﻿import { User } from '../../core';
+﻿import User from '../../core';
 
 const authorization = {
     namespaced: true,

@@ -77,9 +77,9 @@
                 try {
                     const response = await axios.post('/login', { login, password });
                     const user = new User(
-                        response.id,
-                        response.name,
-                        response.token,
+                        response.data.id,
+                        response.data.name,
+                        response.data.token,
                     );
 
                     LocalStorageUtils.setUser(user);
@@ -87,7 +87,7 @@
                     return response;
                 } catch (error) {
                     console.error(error);
-
+                    
                     switch (error.status) {
                         case 401:
                             this.errorMessage = authorizationErrors.get('A002');
