@@ -8,20 +8,32 @@
                 Магазин
             </button>
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
-                </li>
-                <li class="nav-item" v-if="user">
-                    <button
-                        type="button"
-                        class="btn btn-outline-dark"
-                        @click="logout">
-                        Выход
-                    </button>
-                </li>
+                <template v-if="isAuthorized()">
+                    <li class="nav-item me-2">
+                        <button
+                            type="button"
+                            class="btn btn-warning"
+                            @click="navigate('/basket')">
+                            Карзина
+                        </button>
+                    </li>
+                    <li class="nav-item me-2">
+                        <button
+                            type="button"
+                            class="btn btn-info"
+                            @click="navigate('/profile')">
+                            Профиль
+                        </button>
+                    </li>
+                    <li class="nav-item me-2">
+                        <button
+                            type="button"
+                            class="btn btn-outline-dark"
+                            @click="logout">
+                            Выход
+                        </button>
+                    </li>
+                </template>
                 <li class="nav-item" v-else>
                     <button
                         type="button"
@@ -43,13 +55,12 @@
         name: 'ShopHeader',
         computed: {
             ...mapGetters('authorization', [
-                'user',
-            ])
+                'token',
+            ]),
         },
         methods: {
             isAuthorized() {
-                debugger;
-                return Boolean(this.user);
+                return Boolean(this.token);
             },
             navigate(path) {
                this.$router.push(path); 

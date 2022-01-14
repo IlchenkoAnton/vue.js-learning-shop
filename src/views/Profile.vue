@@ -1,5 +1,8 @@
 ﻿<template>
-    <h1>Profile</h1>
+    <h1>Профиль</h1>
+    <p class="lead">
+        А тут будут <mark>интим</mark>-фотки пользователя
+    </p>
 </template>
 
 <script>

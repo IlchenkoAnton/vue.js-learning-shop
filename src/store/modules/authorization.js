@@ -23,8 +23,8 @@ const authorization = {
         }
     },
     getters: {
-        user(state) {
-            return state.user;
+        token(state) {
+            return state.user?.Token;
         }
     },
 };

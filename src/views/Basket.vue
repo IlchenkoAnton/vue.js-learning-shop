@@ -1,5 +1,8 @@
 ﻿<template>
-    <h1>Basket</h1>
+    <h1>Карзина</h1>
+    <p class="lead">
+        Тут будут все твои покупки с кол-вом!
+    </p>
 </template>
 
 <script>
