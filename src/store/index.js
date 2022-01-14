@@ -2,6 +2,7 @@
 import authorization from './modules/authorization';
 
 const store = createStore({
+    strict: true,
     modules: {
         authorization: authorization
     }

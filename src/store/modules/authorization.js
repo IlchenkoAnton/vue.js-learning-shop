@@ -17,6 +17,9 @@ const authorization = {
             }
 
             commit('setUser', user);
+        },
+        logout({ commit }) {
+            commit('setUser', null);
         }
     },
     getters: {

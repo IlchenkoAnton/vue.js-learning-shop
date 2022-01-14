@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import store from '../store';
 import LocalStorageUtils from '../utils/local-storage.utils';
 
 const routes = [
@@ -51,16 +52,14 @@ const router = createRouter({
 router.beforeEach((to) => {
     const user = LocalStorageUtils.getUser();
 
-    if (to.name === 'Login') {
-        if (user) {
+    if (user) {
+        store.dispatch('authorization/login', { user });
+
+        if (to.name === 'Login') {
             return '/';
         }
-        
-        return true;
-    }
 
-    if (!user) {
-        return '/login';
+        return true;
     }
 
     return true;

@@ -4,7 +4,7 @@
             <div class="col-10">
                 <div class="row">
                     <div class="col">
-                        <Header></Header>
+                        <ShopHeader></ShopHeader>
                     </div>
                 </div>
                 <div class="row">
@@ -12,11 +12,6 @@
                         <router-view></router-view>
                     </div>
                 </div>
-                <!-- <div class="row">
-                    <div class="col">
-                        Подвал
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
@@ -24,25 +19,18 @@
 
 <script>
     import { mapActions } from 'vuex';
-    import Header from './components/Header.vue';
+    import ShopHeader from './components/ShopHeader.vue';
 
     export default {
         name: 'App',
         components: {
-            Header,
+            ShopHeader,
         },
         methods: {
             ...mapActions('authorization', [
                 'login'
             ])
         },
-        created() {
-            console.log('[this]: ', this);
-
-            this.login({
-                type: 'login',
-            });
-        }
     }
 </script>
 
