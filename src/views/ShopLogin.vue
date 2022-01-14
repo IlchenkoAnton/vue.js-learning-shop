@@ -55,9 +55,8 @@
 </style>
 
 <script>
-    import { mapGetters } from 'vuex';
     import axios from 'axios';
-    import LocalStorageUtils from '../core/local-storage.utils';
+    import LocalStorageUtils from '../utils/local-storage.utils';
     import User from '../core/user';
     import authorizationErrors from '../common/authorization.errors';
 
@@ -70,11 +69,6 @@
                 errorMessage: '',
                 isLoading: false,
             };
-        },
-        computed: {
-            ...mapGetters('authorization', [
-                'user'
-            ]),
         },
         methods: {
             onSubmit() {
@@ -102,7 +96,7 @@
                         response.data.token,
                     );
 
-                    // TODO Еще в store добавить!!!!
+                    this.$store.dispatch('authorization/login', { user });
                     LocalStorageUtils.setUser(user);
 
                     return response;

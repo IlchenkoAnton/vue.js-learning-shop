@@ -11,8 +11,12 @@ const authorization = {
         }
     },
     actions: {
-        login({ commit }) {
-            commit('setUser', null);
+        login({ commit }, { user }) {
+            if (!user) {
+                return;
+            }
+
+            commit('setUser', user);
         }
     },
     getters: {

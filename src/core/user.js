@@ -25,7 +25,7 @@
         return JSON.stringify({
             id: String(this.Id),
             name: String(this.Name),
-            token: String(this.token),
+            token: String(this.Token),
         });
     }
 }
