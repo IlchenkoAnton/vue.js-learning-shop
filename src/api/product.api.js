@@ -6,7 +6,8 @@ export const productEndpoints = {
 
 class ProductApi {
     static getProducts() {
-        return axios.get(productEndpoints.products);
+        return axios.get(productEndpoints.products)
+            .then(({ data }) => data);
     }
 }
 

@@ -1,9 +1,7 @@
-﻿import User from '../../core/user';
-
-const authorization = {
+﻿const authorization = {
     namespaced: true,
     state: {
-        user: User,
+        user: null,
     },
     mutations: {
         setUser(state, user) {
