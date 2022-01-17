@@ -55,10 +55,10 @@
 </style>
 
 <script>
-    import axios from 'axios';
     import LocalStorageUtils from '../utils/local-storage.utils';
     import User from '../core/user';
     import authorizationErrors from '../common/authorization.errors';
+    import UserApi from '../api/user.api';
 
     export default {
         name: 'ShopLogin',
@@ -78,8 +78,8 @@
 
                 this.isLoading = true;
                 this.$_login(this.login, this.password)
-                    .then((response) => {
-                        if (response) {
+                    .then((data) => {
+                        if (data) {
                             this.$router.push('/products');
                         }
                     })
@@ -89,17 +89,17 @@
             },
             async $_login(login, password) {
                 try {
-                    const response = await axios.post('/login', { login, password });
+                    const data = await UserApi.login(login, password);
                     const user = new User(
-                        response.data.id,
-                        response.data.name,
-                        response.data.token,
+                        data.id,
+                        data.name,
+                        data.token,
                     );
 
                     this.$store.dispatch('authorization/login', { user });
                     LocalStorageUtils.setUser(user);
 
-                    return response;
+                    return data;
                 } catch (error) {
                     console.error(error);
                     

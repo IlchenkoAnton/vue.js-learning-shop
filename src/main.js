@@ -5,7 +5,7 @@ import store from './store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import initAxios from './config/axios.config';
-import mockInterceptors from './config/axios.mock';
+import mockInterceptors from './mocks/axios.mock';
 
 initAxios();
 mockInterceptors();
