@@ -1,7 +1,7 @@
 ﻿import axios from 'axios';
 
 export const userEndpoints = {
-    login: '/login'
+    login: '/login',
 };
 
 class UserApi {
