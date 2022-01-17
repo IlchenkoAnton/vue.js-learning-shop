@@ -14,7 +14,7 @@
                             type="button"
                             class="btn btn-warning"
                             @click="navigate('/basket')">
-                            Карзина
+                            Корзина
                         </button>
                     </li>
                     <li class="nav-item me-2">
