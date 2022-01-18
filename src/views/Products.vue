@@ -2,14 +2,28 @@
     <div class="row">
         <h1>Список продуктов</h1>
     </div>
-    <div class="row">
-        <ShopProductsFilter></ShopProductsFilter>
-    </div>
-    <div class="row">
-        <div class="col">
-            <ShopProducts :products="products"></ShopProducts>
+    <template v-if="status === 'pending'">
+        <div class="d-flex align-items-center">
+            <strong>Загрузка...</strong>
+            <div class="spinner-border ms-auto"></div>
         </div>
-    </div>
+    </template>
+    <template v-else-if="status === 'ready'">
+        <div class="row">
+            <ShopProductsFilter></ShopProductsFilter>
+        </div>
+        <div class="row">
+            <div class="col">
+                <ShopProducts :products="products"></ShopProducts>
+            </div>
+        </div>
+    </template>
+    <template v-else-if="status === 'error'">
+        ERROR
+    </template>
+    <template v-else-if="status === 'empty'">
+        EMPTY
+    </template>
 </template>
 
 <script>
