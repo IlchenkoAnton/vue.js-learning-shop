@@ -1,4 +1,4 @@
-﻿export const productsMock = [
+﻿const productsMock = [
     {
         id: 'aaa',
         shortName: 'Товар ааа',
