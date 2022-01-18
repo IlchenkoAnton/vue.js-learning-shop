@@ -1,5 +1,6 @@
 ﻿import ProductApi from '../../api/product.api';
 import { PENDING, READY, ERROR, EMPTY } from '../../common/status.const';
+import Product from '../../core/product';
 import { STATE_EMPTY, STATE_ERROR, STATE_PENDING, STATE_READY } from '../mutations.const';
 
 const products = {
@@ -31,11 +32,23 @@ const products = {
 
             try {
                 const products = await ProductApi.getProducts();
+                
                 if (!products?.length) {
                     commit(STATE_EMPTY);
                 }
 
-                commit(STATE_READY, products);
+                commit(
+                    STATE_READY,
+                    products.map((product) => {
+                        return new Product(
+                            product.id,
+                            product.shortName,
+                            product.name,
+                            product.description,
+                            product.categoryId
+                        );
+                    })
+                );
             } catch (error) {
                 console.error(error);
 
