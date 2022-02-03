@@ -47,7 +47,9 @@ const products = {
                         product.shortName,
                         product.name,
                         product.description,
-                        product.categoryId
+                        product.categoryId,
+                        null,
+                        product.images
                     );
                 });
                 const categoryList = categories.map((category) => {

@@ -1,7 +1,7 @@
 ﻿<template>
     <div class="shop-product d-flex justify-content-between align-items-center p-2">
         <div class="me-2">
-            <img class="img-thumbnail">
+            <img v-if="product.Images.length" class="img-thumbnail" :src="productImage">
         </div>
         <div class="me-auto">
             <h1 class="display-5">
@@ -39,6 +39,11 @@
             ...mapGetters('products', [
                 'categories',
             ]),
+            productImage () {
+                return this.product.Images.length
+                    ? require('../assets/product-images/' + this.product.Images[0])
+                    : null;
+            }
         },
         methods: {
             getCategoryName(categoryId) {
