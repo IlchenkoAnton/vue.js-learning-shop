@@ -1,9 +1,14 @@
 ﻿<template>
-    <h1>Product</h1>
+    <ShopProductInfo></ShopProductInfo>
 </template>
 
 <script>
+    import ShopProductInfo from '../components/ShopProductInfo.vue';
+
     export default {
         name: 'Product',
+        components: {
+            ShopProductInfo,
+        },
     }
 </script>

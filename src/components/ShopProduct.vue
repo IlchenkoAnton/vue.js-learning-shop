@@ -16,9 +16,9 @@
                 <span class="badge bg-success">Цена</span>
             </h4>
             <div class="d-flex">
-                <div class="link-info">
+                <button type="button" class="btn btn-link" @click="navigateToProduct()">
                     Подробнее...
-                </div>
+                </button>
                 <button type="button" class="btn btn-warning">
                     Добавить в корзину
                 </button>
@@ -51,7 +51,10 @@
                 const category = this.categories.find(category => category.Id === categoryId);
 
                 return category?.Name || 'Прочее';
-            }
+            },
+            navigateToProduct() {
+               this.$router.push(`/products/${this.product.Id}`); 
+            },
         }
     };
 </script>
