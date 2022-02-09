@@ -44,7 +44,9 @@
             ]),
         },
         mounted() {
-            this.$store.dispatch('products/fetchProducts');
+            if (!this.products?.length) {
+                this.$store.dispatch('products/fetchProducts');
+            }
         }
     }
 </script>

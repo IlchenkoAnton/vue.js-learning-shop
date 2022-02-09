@@ -17,6 +17,10 @@ function mockInterceptors() {
     mock.onGet(productEndpoints.products).reply(200, productsMock);
 
     mock.onGet(productEndpoints.categories).reply(200, categoriesMock);
+
+    mock.onGet(/^\/products\//).reply(200, productsMock[0]);
+
+    mock.onGet(/^\/categories\//).reply(200, categoriesMock[0]);
 }
 
 export default mockInterceptors;

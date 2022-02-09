@@ -68,6 +68,38 @@ const products = {
 
                 commit(STATE_ERROR);
             }
+        },
+        async fetchProduct({ commit }, { productId }) {
+            commit(STATE_PENDING);
+
+            try {
+                const product = await ProductApi.getPriduct(productId);
+                const category = await ProductApi.getCategory(product.categoryId);
+
+                commit(
+                    STATE_READY,
+                    { 
+                        products: [
+                            new Product(
+                                product.id,
+                                product.shortName,
+                                product.name,
+                                product.description,
+                                product.categoryId,
+                                null,
+                                product.images
+                            ),
+                        ],
+                        categories: [
+                            new Category(category.id, category.name),
+                        ],
+                    }
+                );
+            } catch (error) {
+                console.error(error);
+
+                commit(STATE_ERROR);
+            }
         }
     },
     getters: {
@@ -79,6 +111,13 @@ const products = {
         },
         categories(state) {
             return state.categories;
+        },
+        product: (state) => (productId) => {
+            if (!state.products?.length) {
+                return null;
+            }
+
+            return state.products.find(product => product.Id === productId);
         }
     },
 };

@@ -69,11 +69,44 @@
             </p>
         </div>
     </div>
+
+    <div>
+        {{ aaa }}
+    </div>
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
+
     export default {
-        name: 'ShopProductInfo'
+        name: 'ShopProductInfo',
+        data() {
+            return {
+                productInfo: null,
+            };
+        },
+        computed: {
+            ...mapGetters('products', [
+                'product',
+            ]),
+            aaa() {
+                this.product;
+
+                debugger;
+
+                return '';
+            }
+        },
+        mounted() {
+            const productId = this.$route.params.productId;
+
+            this.productInfo = this.product(productId);
+
+            if (!this.productInfo) {
+                this.$store.dispatch('products/fetchProduct', { productId });
+                // this.$router.push({ name: 'NotFound' });
+            }
+        }
     }
 </script>
 
