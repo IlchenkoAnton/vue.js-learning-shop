@@ -1,5 +1,12 @@
 ﻿<template>
-    <div class="row">
+    <template v-if="status === 'pending'">
+        <div class="d-flex align-items-center">
+            <strong>Загрузка...</strong>
+            <div class="spinner-border ms-auto"></div>
+        </div>
+    </template>
+    <template v-if="status === 'ready'">
+        <div class="row">
         <div class="col-10">
             <nav>
                 <ol class="breadcrumb">
@@ -10,18 +17,14 @@
                     </li>
                     <li class="breadcrumb-item">
                         <button type="button" class="btn btn-link">
-                            Категория
+                            {{ productInfo.CategoryId }}
                         </button>
                     </li>
                 </ol>
             </nav>
 
-            <p class="h2">
-                Краткое название продукта
-            </p>
-            <p class="display-6">
-                Более длинное название продукта, чуть длинее чем короткое
-            </p>
+            <p class="h2">{{ productInfo.ShortName }}</p>
+            <p class="display-6">{{ productInfo.Name }}</p>
         </div>
         <div class="col-2">
             <button type="button" class="btn btn-primary">
@@ -64,15 +67,16 @@
             </div>
         </div>
         <div class="col-6">
-            <p class="lead">
-                This is a lead paragraph. It stands out from regular paragraphs. This is a lead paragraph. It stands out from regular paragraphs. This is a lead paragraph. It stands out from regular paragraphs. This is a lead paragraph. It stands out from regular paragraphs. This is a lead paragraph. It stands out from regular paragraphs. This is a lead paragraph. It stands out from regular paragraphs.
-            </p>
+            <p class="lead">{{ productInfo.Description }}</p>
         </div>
     </div>
-
-    <div>
-        {{ aaa }}
-    </div>
+    </template>
+    <template v-if="status === 'error'">
+        ERROR
+    </template>
+    <template v-if="status === 'empty'">
+        EMPTY
+    </template>
 </template>
 
 <script>
@@ -80,31 +84,22 @@
 
     export default {
         name: 'ShopProductInfo',
-        data() {
-            return {
-                productInfo: null,
-            };
-        },
         computed: {
             ...mapGetters('products', [
+                'status',
                 'product',
             ]),
-            aaa() {
-                this.product;
+            productInfo() {
+                const productId = this.$route.params.productId;
 
-                debugger;
-
-                return '';
+                return this.product(productId);
             }
         },
         mounted() {
             const productId = this.$route.params.productId;
 
-            this.productInfo = this.product(productId);
-
-            if (!this.productInfo) {
+            if (!this.product(productId)) {
                 this.$store.dispatch('products/fetchProduct', { productId });
-                // this.$router.push({ name: 'NotFound' });
             }
         }
     }
