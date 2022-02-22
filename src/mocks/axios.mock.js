@@ -18,9 +18,27 @@ function mockInterceptors() {
 
     mock.onGet(productEndpoints.categories).reply(200, categoriesMock);
 
-    mock.onGet(/^\/products\//).reply(200, productsMock[0]);
+    mock.onGet(/^\/products\//).reply((config) => {
+        const productId = config.url.split('/')[2];
+        const product = productsMock.find(p => p.id === productId);
 
-    mock.onGet(/^\/categories\//).reply(200, categoriesMock[0]);
+        if (!product) {
+            return [ 404 ];
+        }
+
+        return [ 200, product ];
+    });
+
+    mock.onGet(/^\/categories\//).reply((config) => {
+        const categoryId = config.url.split('/')[2];
+        const category = categoriesMock.find(c => c.id === categoryId);
+
+        if (!category) {
+            return [ 404 ];
+        }
+
+        return [ 200, category ];
+    });
 }
 
 export default mockInterceptors;
