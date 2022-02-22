@@ -6,7 +6,7 @@ import productsMock from './products.mock';
 import categoriesMock from './categories.mock';
 
 function mockInterceptors() {
-    const mock = new axiosMockAdapter(axios, { delayResponse: 1500 });
+    const mock = new axiosMockAdapter(axios, { delayResponse: 800 });
 
     mock.onPost(userEndpoints.login).reply(200, {
         id: 'xxx',

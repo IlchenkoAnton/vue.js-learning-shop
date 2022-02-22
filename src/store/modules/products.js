@@ -2,43 +2,80 @@
 import { PENDING, READY, ERROR, EMPTY } from '../../common/status.const';
 import Product from '../../core/product';
 import Category from '../../core/category';
-import { STATE_EMPTY, STATE_ERROR, STATE_PENDING, STATE_READY } from '../mutations.const';
+import {
+    STATE_PRODUCTS_PENDING,
+    STATE_PRODUCTS_READY,
+    STATE_PRODUCTS_ERROR,
+    STATE_PRODUCTS_EMPTY,
+    STATE_PRODUCT_PENDING,
+    STATE_PRODUCT_READY,
+    STATE_PRODUCT_ERROR,
+    STATE_PRODUCT_EMPTY,
+} from '../mutations.const';
 
 const products = {
     namespaced: true,
     state: {
-        products: null,
-        status: null,
-        categories: null,
+        products: {
+            data: null,
+            status: null,
+            categories: null,
+        },
+        product: {
+            data: null,
+            status: null,
+            category: null,
+        },
     },
     mutations: {
-        [STATE_PENDING] (state) {
-            state.status = PENDING;
+        [STATE_PRODUCTS_PENDING] (state) {
+            state.products.status = PENDING;
         },
-        [STATE_READY] (state, { products, categories }) {
-            state.status = READY;
-            state.products = products;
-            state.categories = categories;
+        [STATE_PRODUCTS_READY] (state, { products, categories }) {
+            state.products.status = READY;
+            state.products.data = products;
+            state.products.categories = categories;
         },
-        [STATE_ERROR] (state) {
-            state.status = ERROR;
-            state.products = null;
+        [STATE_PRODUCTS_ERROR] (state) {
+            state.products.status = ERROR;
+            state.products.data = null;
+            state.products.categories = null;
         },
-        [STATE_EMPTY] (state) {
-            state.status = EMPTY;
-            state.products = [];
-        }
+        [STATE_PRODUCTS_EMPTY] (state) {
+            state.products.status = EMPTY;
+            state.products.data = [];
+            state.products.categories = [];
+        },
+
+        [STATE_PRODUCT_PENDING] (state) {
+            state.product.status = PENDING;
+        },
+        [STATE_PRODUCT_READY] (state, { product, category }) {
+            state.product.status = READY;
+            state.product.data = product;
+            state.product.category = category;
+        },
+        [STATE_PRODUCT_ERROR] (state) {
+            state.product.status = ERROR;
+            state.product.data = null;
+            state.product.category = null;
+        },
+        [STATE_PRODUCT_EMPTY] (state) {
+            state.product.status = EMPTY;
+            state.product.data = null;
+            state.product.category = null;
+        },
     },
     actions: {
         async fetchProducts({ commit }) {
-            commit(STATE_PENDING);
+            commit(STATE_PRODUCTS_PENDING);
 
             try {
                 const products = await ProductApi.getProducts();
                 const categories = await ProductApi.getCategories();
                 
                 if (!products?.length) {
-                    commit(STATE_EMPTY);
+                    commit(STATE_PRODUCTS_EMPTY);
                 }
 
                 const productList = products.map((product) => {
@@ -57,7 +94,7 @@ const products = {
                 });
 
                 commit(
-                    STATE_READY,
+                    STATE_PRODUCTS_READY,
                     { 
                         products: productList,
                         categories: categoryList,
@@ -66,58 +103,57 @@ const products = {
             } catch (error) {
                 console.error(error);
 
-                commit(STATE_ERROR);
+                commit(STATE_PRODUCTS_ERROR);
             }
         },
         async fetchProduct({ commit }, { productId }) {
-            commit(STATE_PENDING);
+            commit(STATE_PRODUCT_PENDING);
 
             try {
                 const product = await ProductApi.getPriduct(productId);
                 const category = await ProductApi.getCategory(product.categoryId);
 
+                if (!product || !category) {
+                    commit(STATE_PRODUCT_EMPTY);
+                }
+
                 commit(
-                    STATE_READY,
+                    STATE_PRODUCT_READY,
                     { 
-                        products: [
-                            new Product(
-                                product.id,
-                                product.shortName,
-                                product.name,
-                                product.description,
-                                product.categoryId,
-                                null,
-                                product.images
-                            ),
-                        ],
-                        categories: [
-                            new Category(category.id, category.name),
-                        ],
+                        product: new Product(
+                            product.id,
+                            product.shortName,
+                            product.name,
+                            product.description,
+                            product.categoryId,
+                            null,
+                            product.images
+                        ),
+                        category: new Category(category.id, category.name),
                     }
                 );
             } catch (error) {
                 console.error(error);
 
-                commit(STATE_ERROR);
+                commit(STATE_PRODUCT_ERROR);
             }
         }
     },
     getters: {
         status(state) {
-            return state.status;
+            return state.products.status;
         },
         products(state) {
-            return state.products;
+            return state.products.data;
         },
         categories(state) {
-            return state.categories;
+            return state.products.categories;
         },
-        product: (state) => (productId) => {
-            if (!state.products?.length) {
-                return null;
-            }
-
-            return state.products.find(product => product.Id === productId);
+        productInfo(state) {
+            return state.product.data;
+        },
+        productInfoStatus(state) {
+            return state.product.status;
         }
     },
 };

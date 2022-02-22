@@ -1,11 +1,11 @@
 ﻿<template>
-    <template v-if="status === 'pending'">
+    <template v-if="productInfoStatus === 'pending'">
         <div class="d-flex align-items-center">
             <strong>Загрузка...</strong>
             <div class="spinner-border ms-auto"></div>
         </div>
     </template>
-    <template v-if="status === 'ready'">
+    <template v-else-if="productInfoStatus === 'ready'">
         <div class="row">
             <div class="col-10">
                 <nav>
@@ -47,10 +47,10 @@
             </div>
         </div>
     </template>
-    <template v-if="status === 'error'">
+    <template v-else-if="productInfoStatus === 'error'">
         ERROR
     </template>
-    <template v-if="status === 'empty'">
+    <template v-else-if="productInfoStatus === 'empty'">
         EMPTY
     </template>
 </template>
@@ -62,19 +62,14 @@
         name: 'ShopProductInfo',
         computed: {
             ...mapGetters('products', [
-                'status',
-                'product',
+                'productInfoStatus',
+                'productInfo',
             ]),
-            productInfo() {
-                const productId = this.$route.params.productId;
-
-                return this.product(productId);
-            }
         },
         mounted() {
             const productId = this.$route.params.productId;
 
-            if (!this.product(productId)) {
+            if (!this.productInfo || this.productInfo.Id !== productId) {
                 this.$store.dispatch('products/fetchProduct', { productId });
             }
         }
